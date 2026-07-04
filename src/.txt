@@ -1,0 +1,19 @@
+# we keep all our files here , where we code 
+
+# contolers -> written functions 
+
+#app.js -> have our complete express code we just export them from app to index to run 
+
+##utils folder (utilities)
+
+    // errors are handeled in node js but we have to handeled reponse on our own
+    // error and reponse both have -> status code , data , message 
+    // on user req server need to send smt while its error or response 
+    # we are design errors and reponse in our utlis folder 
+
+    // there was certain things which we dont want to change 
+    // some of them are which we need to keep to secure , so we store them in env 
+    // but there was some value which we are need to save from typo errors and smothing so we store them in our constants file in utils 
+
+##db folder 
+    // we write all our code to intract to mongodb(our database) using mongoose here 
