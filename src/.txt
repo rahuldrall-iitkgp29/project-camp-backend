@@ -20,7 +20,8 @@
 
 # db folder --> we write all our code to intract to mongodb(our database) using mongoose here 
 
-
+# models #
+    // format in which we gonna store user data 
 
 
 ### features ###
