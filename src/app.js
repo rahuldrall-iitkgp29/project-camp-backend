@@ -1,6 +1,7 @@
 import express from "express" 
 import cors from "cors"
 
+
 const app = express();
 
 // basic configurations
@@ -17,6 +18,13 @@ app.use(
         allowedHeaders : ["Authorization" , "Content-Type"],
     }),
 );
+
+// import routes 
+import healthCheckRouter from "./routes/healthCheck_route.js"
+
+app.use("/api/v1/healthcheck" , healthCheckRouter)
+// we just add extra routing to our healthcheck 
+// from "/" to "/api/v1/healthcheck/" and if add smt further route in router lets say we make an another router there with "/insta" then its become "/api/v1/healthcheck/insta"
 
 app.get("/", (req, res) => {
   res.send("this is the instagram page");

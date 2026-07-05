@@ -1,6 +1,7 @@
 # we keep all our files here , where we code 
 
-# contolers -> written functions 
+# contolers -> our app logics(functions)
+# routes -> paths 
 
 #app.js -> have our complete express code we just export them from app to index to run 
 
@@ -15,5 +16,12 @@
     // some of them are which we need to keep to secure , so we store them in env 
     // but there was some value which we are need to save from typo errors and smothing so we store them in our constants file in utils 
 
-##db folder 
-    // we write all our code to intract to mongodb(our database) using mongoose here 
+# db folder --> we write all our code to intract to mongodb(our database) using mongoose here 
+
+
+
+
+### features ###
+
+# 3.7 -> system health check
+    we write all logics of point 3.7 feature in our health check file under conroler [API endpoint for system status monitoring]
