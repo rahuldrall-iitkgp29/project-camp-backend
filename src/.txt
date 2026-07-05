@@ -16,6 +16,8 @@
     // some of them are which we need to keep to secure , so we store them in env 
     // but there was some value which we are need to save from typo errors and smothing so we store them in our constants file in utils 
 
+    // async await handler 
+
 # db folder --> we write all our code to intract to mongodb(our database) using mongoose here 
 
 
