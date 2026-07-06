@@ -18,6 +18,8 @@
 
     // async await handler 
 
+    // mail.utlis.js -> genrate mail template and send them
+
 # db folder --> we write all our code to intract to mongodb(our database) using mongoose here 
 
 # models #

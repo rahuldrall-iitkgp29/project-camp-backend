@@ -1,13 +1,10 @@
 const asyncHandler = (requestHandler) => {
-    return(req,res,next) => {
-        Promise
-        .resolve(requestHandler(req,res,next))
-        .catch((err) => next(err)) //next(err) will give express inbuilt error
-    }
-}
+  return (req, res, next) => {
+    Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err)); //next(err) will give express inbuilt error
+  };
+};
 
-export {asyncHandler}
-
+export { asyncHandler };
 
 /*
 this is a higher order fn

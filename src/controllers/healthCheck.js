@@ -1,5 +1,5 @@
-import { ApiRespones } from "../utils/apiResponse.js" // ../ one directory back 
-import { asyncHandler } from "../utils/asyncHandler.js"
+import { ApiRespones } from "../utils/apiResponse.js"; // ../ one directory back
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 /* method 1
 const healthCheck = async (req,res,next) => {
@@ -20,16 +20,14 @@ const healthCheck = async (req,res,next) => {
 */
 
 //method 2
-const healthCheck = asyncHandler(async(req,res) => {
-    //health check code
-    
-    // response on success as json format
-    res.status(200).json( 
-        new ApiRespones(200 , {message : "server is runing"})
-    )
-})
+const healthCheck = asyncHandler(async (req, res) => {
+  //health check code
 
-export {healthCheck}
+  // response on success as json format
+  res.status(200).json(new ApiRespones(200, { message: "server is runing" }));
+});
+
+export { healthCheck };
 
 /*
 the flow is:
