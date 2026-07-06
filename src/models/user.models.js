@@ -1,5 +1,7 @@
 import mongoose , { Schema } from "mongoose"; // we import mongoose and schema
 import bcrypt from {bcrypt}
+import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 const userSchema = new Schema(
     { //we give object as schema
@@ -56,7 +58,7 @@ const userSchema = new Schema(
         emailVerficationTokenExpiry : {
             type : Date
         }
-    },//first object is all the fields
+    },//first object contains all the fields
     {
         timestamps : true,
     }
@@ -73,6 +75,44 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     //we just add an method isPasswordCorrect to userSchema
     return await bcrypt.compare(password , this.password)
     //now this hash inpuit pass same no of time and compare the hash from db and input , then return boolean to us [its take some time to done so await]
+}
+
+//tokens with data(refresh and access tokens)
+userSchema.methods.generateAccessToken = function(){
+    jwt.sign( //this data is come with token as digital sign(payload)
+        {
+            _id : this._id,//id is gen by mongodb
+            email : this.email,
+            username : this.username
+        },
+        process.env.ACCESS_TOKEN_SECRET, //this is method in which token gen
+        {expiresIn : process.env.ACCESS_TOKEN_EXPIRY}
+    )
+}
+
+userSchema.methods.generateRefreshToken = function(){
+    jwt.sign(// payload
+        {
+            _id : this._id,
+        },
+        process.env.REFRESH_TOKEN_SECERT,
+        {expiresIn : process.env.REFRESH_TOKEN_EXPIRY}
+    )
+}
+
+// temp tokens (for pass reset , forgot type of things) - using inbuilt crypto of node.js
+userSchema.methods.genrateTemporaryToken = function(){
+    const unhashedToken = crypto.randomBytes(20).toString("hex")
+    //gen 20 random bytes -> then make them to string in hex format
+
+    const hashedToken = crypto
+        .createHash("sha256")
+        .update(unhashedToken)
+        .digest("hex") 
+        //we just hashed that toke in sha256 manner
+
+    const tokenExpiry = Date.now() + (20*60*1000) // 20 minutes
+    return{unhashedToken , hashedToken , tokenExpiry}
 }
 
 export const user =  mongoose.model("user" , userSchema)
