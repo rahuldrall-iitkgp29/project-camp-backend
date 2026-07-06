@@ -119,7 +119,8 @@ userSchema.methods.genrateTemporaryToken = function () {
   return { unhashedToken, hashedToken, tokenExpiry };
 };
 
-export const user = mongoose.model("user", userSchema);
+const user = mongoose.model("user", userSchema);
+export default user;
 //store user in userSchema form in mongodb and then export it as object:user to use
 
 //schema -> structure
