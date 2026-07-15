@@ -26,7 +26,7 @@ app.use("/api/v1/healthcheck", healthCheckRouter);
 // we just add extra routing to our healthcheck
 // from "/" to "/api/v1/healthcheck/" and if add smt further route in router lets say we make an another router there with "/insta" then its become "/api/v1/healthcheck/insta"
 
-app.use("/api/v1/auth/register" , authRouter);
+app.use("/api/v1/auth" , authRouter);
 
 app.get("/", (req, res) => {
   res.send("this is the instagram page");
