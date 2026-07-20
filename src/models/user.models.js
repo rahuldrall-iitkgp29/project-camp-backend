@@ -81,7 +81,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 
 //tokens with data(refresh and access tokens)
 userSchema.methods.generateAccessToken = function () {
-  jwt.sign(
+  return jwt.sign(
     //this data is come with token as digital sign(payload)
     {
       _id: this._id, //id is gen by mongodb
@@ -94,12 +94,12 @@ userSchema.methods.generateAccessToken = function () {
 };
 
 userSchema.methods.generateRefreshToken = function () {
-  jwt.sign(
+  return jwt.sign(
     // payload
     {
       _id: this._id,
     },
-    process.env.REFRESH_TOKEN_SECERT,
+    process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: process.env.REFRESH_TOKEN_EXPIRY },
   );
 };
