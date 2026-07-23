@@ -37,7 +37,41 @@ const userLoginValidator = ()=>{
     ]
 }
 
+const userChanggedCurrentPasswordValidator = () => {
+    return[
+        body("oldPassword")
+            .notEmpty()
+            .withMessage("old password is required"),
+
+        body("newPassword")
+            .notEmpty()
+            .withMessage("old password is required"),
+
+    ]
+};
+
+const userForgotPasswordValidtor = () => {
+    return[
+        body("email")
+            .notEmpty()
+            .withMessage("email is required")
+            .isEmail()
+            .withMessage("invalid email")
+    ]
+};
+
+
+const userRestForgotPasswordValidator = () => {
+    return[
+        body("newPassword")
+            .notEmpty().withMessage("password is required")
+    ]
+}
+
 export{
     userRegistrationValidator,
-    userLoginValidator
+    userLoginValidator,
+    userChanggedCurrentPasswordValidator,
+    userForgotPasswordValidtor,
+    userRestForgotPasswordValidator
 }
