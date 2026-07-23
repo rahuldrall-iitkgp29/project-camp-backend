@@ -123,23 +123,3 @@ const user = mongoose.model("user", userSchema);
 export default user;
 //store user in userSchema form in mongodb and then export it as object:user to use
 
-//schema -> structure
-//we use placehold -> for default avatar
-
-/*
-pass hashing
-we hash our password into an hashed manner (its a very long string) which cant easily be reversed 
-this save our users password
-we use [bcrypt] for this from npm packages
-we can encrypt any thing using this
-*/
-
-// data --> pre(things before save) --> SAVE --> post(things after)
-
-/*
-userSchema.pre("save" , async function (next) {
-    this.password = await bcrypt.hash(this.password , 10) //(data, no of rounds of hash) and we over  write our current pass with this hash one
-}) 
-//things done before saving data[.pre(action happening , fn to perform)]
-// pass next -> my work is done now you go to another hook or save it
-*/
