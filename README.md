@@ -5,7 +5,7 @@ A robust, RESTful backend API designed to power a collaborative project manageme
 ## 🚀 Tech Stack
 * **Runtime:** Node.js
 * **Framework:** Express.js
-* **Database:** [Insert Database, e.g., MongoDB / PostgreSQL]
+* **Database:** MongoDB
 * **Authentication:** JWT (JSON Web Tokens) & bcrypt
 * **File Handling:** Multer
 
