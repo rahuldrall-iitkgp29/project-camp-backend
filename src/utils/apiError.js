@@ -1,10 +1,12 @@
 class ApiError extends Error {
+  // by extends error we transfer all the property of built in error to ApiError also with allowing to add additional propertys to it
   constructor(
     statusCode,
     meassage = "Something went wrong", // we are keep on changing it
     errors = [], // we keep all our coming error into this array
     stack = "",
-  ) {
+  ) 
+  {
     super(meassage);
     this.statusCode = statusCode;
     this.data = null;
