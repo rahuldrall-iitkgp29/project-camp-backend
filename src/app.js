@@ -26,11 +26,15 @@ app.use(
 import healthCheckRouter from "./routes/healthCheck_route.js";
 import authRouter from "./routes/auth.route.js"
 
+import projectRouter from "./routes/project.route.js"
+
 app.use("/api/v1/healthcheck", healthCheckRouter);
 // we just add extra routing to our healthcheck
 // from "/" to "/api/v1/healthcheck/" and if add smt further route in router lets say we make an another router there with "/insta" then its become "/api/v1/healthcheck/insta"
 
-app.use("/api/v1/auth" , authRouter);
+app.use("/api/v1/auth" , authRouter); //our auth router handler
+
+app.use("/api/v1/projects",projectRouter); //our project router handler
 
 app.get("/", (req, res) => {
   res.send("this is the instagram page");

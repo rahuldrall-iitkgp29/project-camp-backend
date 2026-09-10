@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 // as of now our most of data is come from body itself
+import { AvailableUserRole } from "../utils/constants.js";
 
 const userRegistrationValidator = () => {//user registratioin validator
     return [
@@ -68,10 +69,34 @@ const userRestForgotPasswordValidator = () => {
     ]
 }
 
-export{
-    userRegistrationValidator,
-    userLoginValidator,
-    userChanggedCurrentPasswordValidator,
-    userForgotPasswordValidtor,
-    userRestForgotPasswordValidator
+const createProjectValidator = ()=>{
+    return [
+        body("name")
+            .notEmpty()
+            .withMessage("name is required"),
+        body("description")
+            .optional(),
+    ]
+};
+
+const addMemberToProjectValidator = ()=>{
+    return[
+        body("email")
+            .trim()
+            .notEmpty().withMessage("email is required")
+            .isEmail().withMessage("invalid email"),
+        body("role")
+            .notEmpty().withMessage("should not be empty")
+            .isIn(AvailableUserRole).withMessage(`role is invalid`), //here we pass an array of available roles and check if input role is in that array or not
+        ]
 }
+
+export {
+  userRegistrationValidator,
+  userLoginValidator,
+  userChanggedCurrentPasswordValidator,
+  userForgotPasswordValidtor,
+  userRestForgotPasswordValidator,
+  createProjectValidator,
+  addMemberToProjectValidator,
+};
