@@ -5,6 +5,7 @@ import { ApiRespones} from "../utils/apiResponse.js"
 import { ApiError } from "../utils/apiError.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import mongoose from "mongoose";
+import {AvailableUserRole , UserRolesEnum} from "../utils/constants.js";
 import { pipeline } from "nodemailer/lib/xoauth2/index.js";
 
 // so now our auth work is done , means our user is already logged in 
