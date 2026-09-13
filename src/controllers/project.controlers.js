@@ -1,7 +1,10 @@
-import { User }  from "../models/user.models.js";
-import { Project }  from "../models/user.models.js";
-import { ProjectMember }  from "../models/user.models.js";
+import User from "../models/user.models.js";
+import { Project } from "../models/project.models.js";
+import { ProjectMember } from "../models/projectmember.models.js";
 import { ApiRespones} from "../utils/apiResponse.js"
+import { Task } from "../models/task.models.js";
+import { Subtask } from "../models/subtask.models.js";
+import { ProjectNote } from "../models/note.models.js";
 import { ApiError } from "../utils/apiError.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import mongoose from "mongoose";
@@ -12,7 +15,7 @@ import { pipeline } from "nodemailer/lib/xoauth2/index.js";
 // means we can fetch any req data from req.user , whenever we want
 
 const getProjects = asyncHandler(async(req,res) => {
-    const project = await ProjectMember.aggregate([ // aggregation pipeline
+    const projects = await ProjectMember.aggregate([ // aggregation pipeline
         {
             $match : {
                 user : new mongoose.Types.ObjectId(req.user._id), //to find all the user with that id(getting all the project)
@@ -108,7 +111,7 @@ const updateProject = asyncHandler(async(req,res) => {
     const {name , description} = req.body
     const {projectId} = req.params 
 
-    await Project.findByIdAndUpdate(
+    const project = await Project.findByIdAndUpdate(
         projectId,
         {
             name,
@@ -138,6 +141,14 @@ const deleteProject = asyncHandler(async(req,res) => {
     if(!project){
         throw new ApiError(404 , "project not found")
     }
+
+    const tasks = await Task.find({ project: projectId });
+    const taskIds = tasks.map(t => t._id);
+    await Subtask.deleteMany({ task: { $in: taskIds } });
+    await Task.deleteMany({ project: projectId });
+    await ProjectNote.deleteMany({ project: projectId });
+    await ProjectMember.deleteMany({ project: projectId });
+
     return res 
             .status(200)
             .json(
@@ -158,7 +169,7 @@ const addMemberToProject = asyncHandler(async(req,res) => {
         throw new ApiError(404,"user not exist")
     }
 
-    await ProjectMember.findByIdAndUpdate(
+    await ProjectMember.findOneAndUpdate(
       {
         user: new mongoose.Types.ObjectId(user._id),
         project: new mongoose.Types.ObjectId(projectId),
@@ -228,7 +239,7 @@ const getsProjectMembers = asyncHandler(async(req,res) => {
         }
     ])
 
-    return res.status(200).json(200,projectmembers,"project members fetched")
+    return res.status(200).json(new ApiRespones(200,projectmembers,"project members fetched"))
 })
 
 const updateMemberRole = asyncHandler(async(req,res) => {

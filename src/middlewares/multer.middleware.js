@@ -6,7 +6,7 @@ const storage = multer.diskStorage({ //where we want to store them
         cb(null , `./public/images`) //cb-> call back fn , lcoation to store
     },
     filename : function(req,file,cb){
-        cb(null , `${Date.now()}-{$file.originalname}`) //date-filename => template of our store file
+        cb(null , `${Date.now()}-${file.originalname}`) //date-filename => template of our store file
     },
 })
 

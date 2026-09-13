@@ -6,6 +6,7 @@ import {emailVerficationMailgenContent, forgotPasswordMailgenContent, sendingEma
 import { log } from "console";
 import user from "../models/user.models.js";
 import jwt from "jsonwebtoken"
+import crypto from "crypto";
 
 
 const genAccessAndRefreshToken = async (userId) => {
@@ -178,7 +179,7 @@ const verifyEmail = asyncHandler(async(req,res)=>{//verification of sended token
                         .update(verficationToken)
                         .digest("hex")
 
-    await User.findOne({
+    const user = await User.findOne({
         emailVerficationToken : hashedToken,
         emailVerficationTokenExpiry : {$gt : Date.now()} //grater then
     })
@@ -279,7 +280,7 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
             .status(200)
             .cookie("accessToken" , accessToken , options)
             .cookie("refreshToken" , newRefreshToken , options)
-            .josn(
+            .json(
                 new ApiRespones(
                     200,
                     {
@@ -362,7 +363,6 @@ const resetForgotPassword = asyncHandler(async(req,res)=>{
     return res
         .status(200)
         .json(
-            200,
             new ApiRespones(
                 200,
                 {},

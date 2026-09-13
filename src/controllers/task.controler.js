@@ -1,5 +1,5 @@
 import { User } from "../models/user.models.js";
-import { Project } from "../models/user.models.js";
+import { Project } from "../models/project.models.js";
 import { Task } from "../models/task.models.js";
 import { Subtask } from "../models/subtask.models.js";
 import { ApiRespones } from "../utils/apiResponse.js";
@@ -7,7 +7,6 @@ import { ApiError } from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import mongoose, { Types } from "mongoose";
 import { AvailableUserRole, UserRolesEnum } from "../utils/constants.js";
-import { pipeline } from "nodemailer/lib/xoauth2/index.js";
 
 const getTasks = asyncHandler(async(req,res)=>{
     const { projectId } = req.params;
@@ -37,7 +36,7 @@ const createTask = asyncHandler(async (req, res) => {
 
     const files = req.files || []
 
-    files.map((file) => {
+    const attachements = files.map((file) => {
         return{
             url : `${process.env.SERVER_URL}/images/${file.originalname}`, //to get actuall url of our seveer where images saves
             mimetype : file.mimetype,
@@ -78,10 +77,12 @@ const getTaskById = asyncHandler(async (req, res) => {
           as: "assignedTo",
           pipeline: [
             {
-              _id: 1,
-              username: 1,
-              fullName: 1,
-              avatar: 1,
+              $project: {
+                _id: 1,
+                username: 1,
+                fullName: 1,
+                avatar: 1,
+              }
             },
           ],
         },
@@ -101,7 +102,7 @@ const getTaskById = asyncHandler(async (req, res) => {
                 as: "createdBy",
                 pipeline: [
                     {
-                        $projects : {
+                        $project : {
                             _id : 1,
                             username : 1,
                             fullName: 1,
@@ -124,7 +125,7 @@ const getTaskById = asyncHandler(async (req, res) => {
       {
         $addFields : {
             assignedTo:{
-                $arrayElemAt : ["assignedTo",0]
+                $arrayElemAt : ["$assignedTo",0]
             }
         }
       }

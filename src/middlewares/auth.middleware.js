@@ -7,6 +7,7 @@ import {ProjectMember} from "../models/projectmember.models.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from "../utils/apiError.js"
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose"
 
 export const verifyJWT = asyncHandler(async(req,res,next)=>{
     const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")  ;
@@ -36,18 +37,18 @@ export const verifyJWT = asyncHandler(async(req,res,next)=>{
 // like delete project controller -> only access by admin not by regular user
 
 export const validateProjectPermission = (roles = []) => { //we accept roles as array in this -> all inputs which are given in roles array have access to pass middleware and use contorller ,  rest all of them stopped here
-    asyncHandler(async(req,res,next) => {
+    return asyncHandler(async(req,res,next) => {
         const {projectId} = req.params
         if(!projectId){
             throw new ApiError(400,"project id is missing")
         }
 
         const project = await ProjectMember.findOne({
-          project: new moongoose.Types.ObjectId(projectId),
-          user: new moongoose.Types.ObjectId(req.user._id),
+          project: new mongoose.Types.ObjectId(projectId),
+          user: new mongoose.Types.ObjectId(req.user._id),
         });
 
-        if (!projectId) {
+        if (!project) {
           throw new ApiError(400, "project not found");
         }
 

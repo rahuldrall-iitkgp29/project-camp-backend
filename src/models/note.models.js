@@ -13,7 +13,7 @@ const projectNotedSchema = new Schema({
     },
     content : {
         type : String,
-        required : ture
+        required : true
     }
 } , {timestamps : true});
 

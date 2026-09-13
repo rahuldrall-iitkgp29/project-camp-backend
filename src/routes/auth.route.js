@@ -37,7 +37,7 @@ router.route("/login").post(userLoginValidator() , validate , login);
 router.route("/verify-email/:verficationToken").get(verifyEmail);
 //bcz we used vertificationToken in params extraction==> in verify email controller , so we need to write it inside url
 router.route("/refresh-token").post(refreshAccessToken);
-router.route("/forgot-Password").post(userRestForgotPasswordValidator() , validate , forgotPasswordRequest);
+router.route("/forgot-Password").post(userForgotPasswordValidtor() , validate , forgotPasswordRequest);
 router.route("/reset-password/:resetToken").post(userRestForgotPasswordValidator() , validate , resetForgotPassword);
 //bcz we need to take resetToken from url ==> in controller(just like verfy email)
 
@@ -50,8 +50,8 @@ router.route("/reset-password/:resetToken").post(userRestForgotPasswordValidator
 
 //secure route-> required varify jwt
 router.route("/logout").post(verifyJWT , logoutUser );
-router.route("/current-user")
-.post(verifyJWT,userChanggedCurrentPasswordValidator , validate , getCurrentUser);
+router.route("/current-user").get(verifyJWT, getCurrentUser);
+router.route("/change-password").post(verifyJWT, userChanggedCurrentPasswordValidator, validate, changeCurrentPassword);
 router.route("/resend-email-verification").post(verifyJWT , resendEmailVerification);
 
 
